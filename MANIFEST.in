@@ -1,0 +1,2 @@
+include quantastica/qconvert/gate_defs.json
+include README.md LICENSE
