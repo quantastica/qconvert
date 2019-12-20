@@ -269,8 +269,7 @@ def experiment_to_pyquil(experiment, options = {}):
 	# Executable code
 	#
 	pyquil += "\n"
-
-	if "lattice" in options and options["lattice"] is not None and options["lattice"] != "qasm_simulator":
+	if "lattice" in options and options["lattice"] is not None and options["lattice"] != "qasm_simulator" and (options["lattice"].find("q-qvm") < 0):
 		lattice_name = options["lattice"]
 
 		if lattice_name == "statevector_simulator":
