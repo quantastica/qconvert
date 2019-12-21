@@ -61,10 +61,14 @@ For all destination formats:
 - `create_exec_code`
 	- `True` (default) generated source code will contain command which executes circuit e.g. `qc.run()`
 
+- `shots` (integer) if `create_exec_code` is `True` then generated code will perform `shots` number of samples
+
+
 For `PYQUIL` destination:
 
-- `lattice` name of the backend (e.g. for pyQuil destination `"Aspen-7-28Q-A"`). If ommited then "Nq-qvm" will be generated where `N` is number fo qubits in the circuit.
-	- special values: 
+- `lattice` name of the backend (e.g. for pyQuil destination `"Aspen-7-28Q-A"`). 
+	- If ommited then "Nq-qvm" will be generated where `N` is number fo qubits in the circuit.
+	- Special values:
 		- `"qasm_simulator"` will produce "Nq-qvm" backend
 		- `"statevector_simulator"` will produce WaveFunction simulator code
 

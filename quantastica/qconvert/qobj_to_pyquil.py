@@ -64,9 +64,9 @@ def experiment_to_pyquil(experiment, options = {}):
 	#
 	program_head = ""
 	if ("as_qvm" in options and options["as_qvm"] == True) or ("lattice" in options and options["lattice"] is not None):
-		program_head += "p = Program('PRAGMA INITIAL_REWIRING \"PARTIAL\"')\n";
+		program_head += "p = Program('PRAGMA INITIAL_REWIRING \"PARTIAL\"')\n"
 	else:
-		program_head += "p = Program()\n";
+		program_head += "p = Program()\n"
 
 	n_qubits = 0
 	memory_slots = 0
@@ -79,28 +79,38 @@ def experiment_to_pyquil(experiment, options = {}):
 
 	header = experiment["header"]
 
+	instructions = experiment["instructions"]
+
+	classical_control_present = False
+	for instruction in instructions:
+		if instruction["name"] == "bfunc":
+			classical_control_present = True
+			break
+
 	#
 	# Declare classical registers
 	#
 	if "memory_slots" in header:
 		memory_slots = header["memory_slots"]
-		program_head += "\n"
-		if memory_slots > 1:
-			program_head += "sha_reg = p.declare('sha_reg', memory_type='INTEGER', memory_size=" + str(memory_slots) + ")\n"
-			program_head += "int_reg = p.declare('int_reg', memory_type='INTEGER', memory_size=" + str(memory_slots) + ")\n"
-			program_head += "ro = p.declare('ro', memory_type='BIT', memory_size=" + str(memory_slots) + ", shared_region='sha_reg')\n"
-		else:
-			program_head += "ro = p.declare('ro', memory_type='BIT', memory_size=" + str(memory_slots) + ")\n"
+		if memory_slots > 0:
+			program_head += "\n"
+			if not classical_control_present:
+				program_head += "ro = p.declare('ro', memory_type='BIT', memory_size=" + str(memory_slots) + ")\n"
+			else:
+				if memory_slots > 1:
+					program_head += "sha_reg = p.declare('sha_reg', memory_type='INTEGER', memory_size=" + str(memory_slots) + ")\n"
+					program_head += "int_reg = p.declare('int_reg', memory_type='INTEGER', memory_size=" + str(memory_slots) + ")\n"
+					program_head += "ro = p.declare('ro', memory_type='BIT', memory_size=" + str(memory_slots) + ", shared_region='sha_reg')\n"
+				else:
+					program_head += "ro = p.declare('ro', memory_type='BIT', memory_size=" + str(memory_slots) + ")\n"
 
-		program_head += "bit_reg = p.declare('bit_reg', memory_type='BIT', memory_size=1)\n"
+				program_head += "bit_reg = p.declare('bit_reg', memory_type='BIT', memory_size=1)\n"
 
 	# 
 	# Get number of qubits
 	#
 	if "n_qubits" in header:
 		n_qubits = header["n_qubits"]
-
-	instructions = experiment["instructions"]
 
 	conditions = {}
 
@@ -112,7 +122,7 @@ def experiment_to_pyquil(experiment, options = {}):
 			#
 			# Classical condition
 			#
-			conditions[instruction["register"]] = { "mask": instruction["mask"], "val": instruction["val"] };
+			conditions[instruction["register"]] = { "mask": instruction["mask"], "val": instruction["val"] }
 
 		elif name == "measure":
 			for qindex in range(len(instruction["qubits"])):
@@ -268,40 +278,82 @@ def experiment_to_pyquil(experiment, options = {}):
 	#
 	# Executable code
 	#
-	pyquil += "\n"
 	if "lattice" in options and options["lattice"] is not None and options["lattice"] != "qasm_simulator" and (options["lattice"].find("q-qvm") < 0):
 		lattice_name = options["lattice"]
 
+		#
+		# Lattice name is given
+		#
 		if lattice_name == "statevector_simulator":
+			#
+			# Statevector
+			#
 			pyquil += "qc = WavefunctionSimulator()\n"
 			if create_exec_code:
+				pyquil += "\n"
 				pyquil += "wf = qc.wavefunction(p)\n"
-				pyquil += "print(wf)"
+				pyquil += "print(wf)\n"
 		else:
+			#
+			# QPU
+			#
+
+			#
+			# Multishot?
+			#
+			if create_exec_code and "shots" in options and options["shots"] is not None and options["shots"] > 1:
+				pyquil += "p.wrap_in_numshots_loop(" + str(options["shots"]) + ")\n"
+				pyquil += "\n"
+
+			#
+			# get_qc
+			#
 			if "as_qvm" in options and options["as_qvm"]:
 				pyquil += "qc = get_qc('" + lattice_name + "', as_qvm=True)\n"
 			else:
 				pyquil += "qc = get_qc('" + lattice_name + "')\n"
 
-			pyquil += "ex = qc.compile(p)\n";
+			#
+			# Compile
+			#
+			pyquil += "\n"
+			pyquil += "ex = qc.compile(p)\n"
+
+			#
+			# Run
+			#
 			if create_exec_code:
-				pyquil += "print(qc.run(ex))\n";
+				pyquil += "print(qc.run(ex))\n"
 	else:
 		#
 		# If lattice is not given or lattice name is "qasm_simulator"
 		#
-		lattice_name = str(n_qubits) + "q-qvm";
+		if create_exec_code and "shots" in options and options["shots"] is not None and options["shots"] > 1:
+			pyquil += "p.wrap_in_numshots_loop(" + str(options["shots"]) + ")\n"
+			pyquil += "\n"
+
+		#
+		# get_qc
+		#
+		lattice_name = str(n_qubits) + "q-qvm"
 		pyquil += "qc = get_qc('" + lattice_name + "')\n"
-		pyquil += "ex = p\n"
+
+		#
+		# Run
+		#
 		if create_exec_code:
-			pyquil += "print(qc.run(ex))\n";
+			pyquil += "\n"
+			pyquil += "print(qc.run(p))\n"
+		else:
+			pyquil += "ex = p\n"
 
 	#
-	# Assemble code
+	# Assemble the code
 	#
 	code = ""
 	code += imports
 	code += "\n"
+
 	if len(def_gate_names) > 0:
 		code += def_params
 		code += "\n"
@@ -311,12 +363,16 @@ def experiment_to_pyquil(experiment, options = {}):
 		code += "\n"
 		code += assign_gates
 		code += "\n"
-	code += "\n"
+		code += "\n"
+
 	code += program_head
 	code += "\n"
-	code += append_gates
-	code += "\n"
-	code += "\n"
+
+	if len(def_gate_names) > 0:
+		code += append_gates
+		code += "\n"
+		code += "\n"
+
 	code += pyquil
 
 	return code
