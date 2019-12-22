@@ -24,7 +24,7 @@ README = (HERE / "README.md").read_text()
 setup(
     name="quantastica-qconvert",
     version="0.9.9",
-    description="Quantastica quantum simulator tools",
+    description="Quantastica quantum programming tools",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/quantastica/qconvert",

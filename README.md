@@ -1,5 +1,10 @@
 # Quantum programming language converter
 
+Convert between quantum programming languages
+
+More goodies at [https://quantastica.com](https://quantastica.com)
+
+
 **Supported languages**
 
 Python version of `quantastica-qconvert` currently supports only:
