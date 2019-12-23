@@ -63,7 +63,7 @@ def experiment_to_pyquil(experiment, options = {}):
 	# Create Program instance. Add rewiring if user wants exec code for simulated QPU/QPU
 	#
 	program_head = ""
-	if ("as_qvm" in options and options["as_qvm"] == True) or ("lattice" in options and options["lattice"] is not None):
+	if "lattice" in options and options["lattice"] is not None and options["lattice"] != "statevector_simulator" and options["lattice"] != "qasm_simulator" and (options["lattice"].find("q-qvm") < 0):
 		program_head += "p = Program('PRAGMA INITIAL_REWIRING \"PARTIAL\"')\n"
 	else:
 		program_head += "p = Program()\n"
