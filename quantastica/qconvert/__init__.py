@@ -14,3 +14,4 @@
 from .convert import convert
 from .convert import Format
 from .qobj_to_pyquil import qobj_to_pyquil
+from .qobj_to_toaster import qobj_to_toaster

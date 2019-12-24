@@ -12,7 +12,8 @@
 # that they have been altered from the originals.
 
 from enum import Enum
-from . import qobj_to_pyquil
+from . import qobj_to_pyquil, qobj_to_toaster
+
 class Format(Enum):
     UNDEFINED = 0
     QOBJ = 1
@@ -37,9 +38,16 @@ class Format(Enum):
 def convert(source_format, source_dict, dest_format, options = dict() ):
     ret = None
 
-    if (source_format == Format.QOBJ) and (dest_format == Format.PYQUIL):
-        ret = qobj_to_pyquil.qobj_to_pyquil(source_dict, options)
+    if source_format == Format.QOBJ: 
+        if dest_format == Format.PYQUIL:
+            ret = qobj_to_pyquil.qobj_to_pyquil(source_dict, options)
+        elif dest_format == Format.TOASTER:
+            ret = qobj_to_toaster.qobj_to_toaster(source_dict, options)
+        else:
+            msg= "Unsuported conversion formats - source: %s  destination: %s"%(str(source_format),str(dest_format))
+            raise RuntimeError(msg)
     else:
         msg= "Unsuported conversion formats - source: %s  destination: %s"%(str(source_format),str(dest_format))
         raise RuntimeError(msg)
+
     return ret
