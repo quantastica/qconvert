@@ -1,68 +1,18 @@
-import os
-import json
-
-from cmath import *
-import tokenize
-import io
-
-from .qconvert_base import QConvertBase
-
-
-gate_defs_path = os.path.join(os.path.dirname(__file__), "gate_defs.json")
-with open(gate_defs_path) as file:
-	gate_defs = json.load(file)
-
-
-def tokenize_string(s):
-	return tokenize.tokenize(io.BytesIO(s.encode('utf-8')).readline)
-
-def eval_mathjs_string(s, params):
-	string = s
-
-	result = []
-	prev = None
-	for tok in tokenize_string(s):
-		if tok.type == tokenize.ENCODING:
-			encoding = tok.string
-		if (tok.string == "i" or tok.string == "j") and prev != tokenize.NUMBER:
-			result.append((tokenize.NAME, "1j"))
-		elif tok.string == "lambda":
-			result.append((tokenize.NAME, "_lambda"))
-		else:
-			result.append(tok)
-		prev = tok.type
-
-	string = tokenize.untokenize(result).decode(encoding)
-
-	clean_params = {}
-	for param_name in params:
-		if param_name == "lambda":
-			clean_name = "_lambda"
-		else:
-			clean_name = param_name
-
-		clean_params[clean_name] = params[param_name]
-	return eval(string, None, clean_params)
+# This code is part of quantastica.qconvert
+#
+# (C) Copyright Quantastica 2019. 
+# https://quantastica.com/
+#
+# This code is licensed under the Apache License, Version 2.0. You may
+# obtain a copy of this license in the LICENSE.txt file in the root directory
+# of this source tree or at http://www.apache.org/licenses/LICENSE-2.0.
+#
+# Any modifications or derivative works of this code must retain this
+# copyright notice, and modified files need to carry a notice indicating
+# that they have been altered from the originals.
 
 
-def eval_mathjs_matrix(matrix, params):
-	res_matrix = []
-	for row in matrix:
-		res_row = []
-		for cell in row:
-			if isinstance(cell, str):
-				ev = eval_mathjs_string(cell, params)
-
-				if isinstance(ev, complex):
-					res_row.append({ "type": "complex", "re": ev.real, "im": ev.imag })
-				else:
-					res_row.append(ev)
-			else:
-				res_row.append(cell)
-
-		res_matrix.append(res_row)
-
-	return res_matrix
+from .qconvert_base import QConvertBase, gate_defs, eval_mathjs_matrix
 
 
 class QConvertQobj(QConvertBase):
@@ -70,7 +20,7 @@ class QConvertQobj(QConvertBase):
 	def converter(self, qobj, options = { "all_experiments": False }):
 
 		all_experiments = False
-		if options is not None and "all_experiments" in options and options["all_experiments"]:
+		if self.options is not None and "all_experiments" in self.options and self.options["all_experiments"]:
 			all_experiments = True
 
 		if "experiments" not in qobj or len(qobj["experiments"]) == 0:
@@ -81,13 +31,13 @@ class QConvertQobj(QConvertBase):
 
 		for experiment in qobj["experiments"]:
 			self.result = None
-			self.experiment_converter(experiment, options)
+			self.experiment_converter(experiment)
 			self.results.append(self.result)
 
 			if not all_experiments:
 				return
 
-	def experiment_converter(self, experiment, options):
+	def experiment_converter(self, experiment):
 
 		#
 		# Do we have header in Qobj?
@@ -108,14 +58,14 @@ class QConvertQobj(QConvertBase):
 		#
 		# Does user requests state vector?
 		#
-		if options is not None and "lattice" in options and options["lattice"] == "statevector_simulator":
+		if self.options is not None and "lattice" in self.options and self.options["lattice"] == "statevector_simulator":
 			info["return_state_vector"] = True
 
 		#
 		# Does user want to generate executable code?
 		#
 		create_exec_code = False
-		if options is not None and ("create_exec_code" not in options or options["create_exec_code"]):
+		if self.options is not None and ("create_exec_code" not in self.options or self.options["create_exec_code"]):
 			info["create_exec_code"] = True
 
 		classical_control_present = False
@@ -156,18 +106,23 @@ class QConvertQobj(QConvertBase):
 			info["qubits"] = header["n_qubits"]
 
 		self.on_start({	"experiment": experiment,
-						"options": options,
 						"info": info })
 
 		conditions = {}
 
 		for instruction in instructions:
 
-			self.on_qobj_instruction({ "instruction": instruction, "options": options, "info": info })
+			self.on_qobj_instruction({ "instruction": instruction, "info": info })
 
 			name = ""
 			if "name" in instruction:
 				name = instruction["name"]
+
+			#
+			# Translate gate names to gate_defs
+			#
+			if name == "iden":
+				name = "id"
 
 			if name == "bfunc":
 				#
@@ -184,7 +139,12 @@ class QConvertQobj(QConvertBase):
 
 				bfunc_creg = creg_masks[str(bfunc_mask)]
 
-				conditions[instruction["register"]] = { "mask": bfunc_mask, "val": bfunc_val, "relation": bfunc_relation, "creg_name": bfunc_creg["name"], "creg_value": bfunc_val >> bfunc_creg["memory_offset"] }
+				conditions[instruction["register"]] = { "mask": bfunc_mask,
+														"val": bfunc_val,
+														"memory": bfunc_creg["memory_offset"],
+														"relation": bfunc_relation,
+														"creg_name": bfunc_creg["name"],
+														"creg_value": bfunc_val >> bfunc_creg["memory_offset"] }
 
 			elif name == "measure":
 				for qindex in range(len(instruction["qubits"])):
@@ -206,13 +166,14 @@ class QConvertQobj(QConvertBase):
 										"creg_name": dest_creg_name,
 										"creg_bit": dest_bit,
 										"memory": memory,
-										"options": options,
 										"info": info })
 
 			elif name == "barrier":
 				#
-				# Barrier is not implemented
+				# Barrier
 				#
+				self.on_barrier({	"info": info })
+
 				pass
 			else:
 				#
@@ -261,11 +222,9 @@ class QConvertQobj(QConvertBase):
 								"params_dict": params_dict,
 								"qubits": qubits,
 								"matrix": matrix,
-								"options": options,
 								"info": info })
 
 		self.on_end({	"experiment": experiment,
-						"options": options,
 						"info": info })
 
 

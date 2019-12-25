@@ -44,10 +44,10 @@ def convert(source_format, source_dict, dest_format, options = dict() ):
         elif dest_format == Format.TOASTER:
             ret = qobj_to_toaster.qobj_to_toaster(source_dict, options)
         else:
-            msg= "Unsuported conversion formats - source: %s  destination: %s"%(str(source_format),str(dest_format))
+            msg = "Unsuported conversion formats - source: %s  destination: %s"%(str(source_format),str(dest_format))
             raise RuntimeError(msg)
     else:
-        msg= "Unsuported conversion formats - source: %s  destination: %s"%(str(source_format),str(dest_format))
+        msg = "Unsuported conversion formats - source: %s  destination: %s"%(str(source_format),str(dest_format))
         raise RuntimeError(msg)
 
     return ret

@@ -1079,7 +1079,10 @@
 		},
 		"exportInfo": {
 			"quil": {
-				"name": "XY"
+				"name": "XY",
+				"params": [
+					"phi"
+				]
 			}
 		}
 	},
