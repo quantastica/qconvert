@@ -31,6 +31,11 @@ class TestConvert(unittest.TestCase):
 
         return ret
 
+    @classmethod
+    def setUpClass(cls):
+        cls.bell_dict = cls.dict_from_file("files/qobj_bell.json")
+        pass
+
     def setUp(self):
         pass
 
@@ -53,19 +58,61 @@ class TestConvert(unittest.TestCase):
         self.assertEqual(len(ret), 0)
 
     def test_bell_simple(self):
-        bell_dict = self.dict_from_file("files/qobj_bell.json")
-        ret = convert(Format.QOBJ, bell_dict, Format.PYQUIL)
+        ret = convert(Format.QOBJ, self.bell_dict, Format.PYQUIL)
         self.assertIs(type(ret), str)
         self.assertTrue(len(ret) > 0)
-        ret = convert(Format.QOBJ, bell_dict, Format.TOASTER)
+        ret = convert(Format.QOBJ, self.bell_dict, Format.TOASTER)
         self.assertIs(type(ret), str)
         self.assertTrue(len(ret) > 0)
 
-    def test_bell_pyquil(self):
-        # TODO: check for different outputs with different input options
-        bell_dict = self.dict_from_file("files/qobj_bell.json")
-        ret = convert(Format.QOBJ, bell_dict, Format.PYQUIL)
+    # check that qc.run is added by default (create_exec_code == True)
+    def test_pyquil_qc_run(self):
+        ret = convert(Format.QOBJ, self.bell_dict, Format.PYQUIL, options=dict())
         self.assertTrue("qc.run" in ret)
+        self.assertFalse("WavefunctionSimulator" in ret)
+
+    # check that qc.run is omited when create_exec_code is set to False
+    def test_pyquil_without_qc_run(self):
+        ret = convert(
+            Format.QOBJ,
+            self.bell_dict,
+            Format.PYQUIL,
+            options={"create_exec_code": False},
+        )
+        self.assertFalse("qc.run" in ret)
+
+    # check that WavefunctionSimulator is used for statevector_simulator
+    # check that shots is not considered for statevector_simulator
+    def test_pyquil_state_vector(self):
+        ret = convert(
+            Format.QOBJ,
+            self.bell_dict,
+            Format.PYQUIL,
+            options={
+                "lattice": "statevector_simulator",
+                "create_exec_code": False,
+                "shots": 10,
+            },
+        )
+        self.assertFalse("wrap_in_numshots_loop" in ret)
+        self.assertFalse("qc.run" in ret)
+        self.assertTrue("WavefunctionSimulator" in ret)
+
+    def test_pyquil_custom_lattice_and_shots(self):
+        # check that wrap_in_numshots_loop exists when shots is larger then 1
+        ret = convert(
+            Format.QOBJ,
+            self.bell_dict,
+            Format.PYQUIL,
+            options={
+                "lattice": "aspen",
+                "create_exec_code": False,
+                "shots": 10,
+            },
+        )
+        self.assertTrue("wrap_in_numshots_loop" in ret)
+        self.assertFalse("qc.run" in ret)
+        self.assertTrue("aspen" in ret)
 
 
 if __name__ == "__main__":
