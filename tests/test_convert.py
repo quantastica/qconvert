@@ -12,10 +12,25 @@
 # that they have been altered from the originals.
 
 import unittest
+import json
+import os
 from quantastica.qconvert import convert, Format
 
 
 class TestConvert(unittest.TestCase):
+    @staticmethod
+    def abspath(relativepath):
+        return os.path.join(os.path.dirname(__file__), relativepath)
+
+    @staticmethod
+    def dict_from_file(relativepath):
+        abspath = TestConvert.abspath(relativepath)
+        ret = None
+        with open(abspath) as f:
+            ret = json.load(f)
+
+        return ret
+
     def setUp(self):
         pass
 
@@ -34,6 +49,23 @@ class TestConvert(unittest.TestCase):
     def test_valid_params_empty_dict(self):
         ret = convert(Format.QOBJ, dict(), Format.TOASTER)
         self.assertEqual(len(ret), 0)
+        ret = convert(Format.QOBJ, dict(), Format.PYQUIL)
+        self.assertEqual(len(ret), 0)
+
+    def test_bell_simple(self):
+        bell_dict = self.dict_from_file("files/qobj_bell.json")
+        ret = convert(Format.QOBJ, bell_dict, Format.PYQUIL)
+        self.assertIs(type(ret), str)
+        self.assertTrue(len(ret) > 0)
+        ret = convert(Format.QOBJ, bell_dict, Format.TOASTER)
+        self.assertIs(type(ret), str)
+        self.assertTrue(len(ret) > 0)
+
+    def test_bell_pyquil(self):
+        # TODO: check for different outputs with different input options
+        bell_dict = self.dict_from_file("files/qobj_bell.json")
+        ret = convert(Format.QOBJ, bell_dict, Format.PYQUIL)
+        self.assertTrue("qc.run" in ret)
 
 
 if __name__ == "__main__":
