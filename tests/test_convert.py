@@ -67,7 +67,9 @@ class TestConvert(unittest.TestCase):
 
     # check that qc.run is added by default (create_exec_code == True)
     def test_pyquil_qc_run(self):
-        ret = convert(Format.QOBJ, self.bell_dict, Format.PYQUIL, options=dict())
+        ret = convert(
+            Format.QOBJ, self.bell_dict, Format.PYQUIL, options=dict()
+        )
         self.assertTrue("qc.run" in ret)
         self.assertFalse("WavefunctionSimulator" in ret)
 
@@ -98,9 +100,9 @@ class TestConvert(unittest.TestCase):
         self.assertFalse("qc.run" in ret)
         self.assertTrue("WavefunctionSimulator" in ret)
 
+    # check that wrap_in_numshots_loop exists when shots is larger than 1
     def test_pyquil_custom_lattice_and_shots(self):
         lattice = "aspen"
-        # check that wrap_in_numshots_loop exists when shots is larger then 1
         ret = convert(
             Format.QOBJ,
             self.bell_dict,
