@@ -99,20 +99,21 @@ class TestConvert(unittest.TestCase):
         self.assertTrue("WavefunctionSimulator" in ret)
 
     def test_pyquil_custom_lattice_and_shots(self):
+        lattice = "aspen"
         # check that wrap_in_numshots_loop exists when shots is larger then 1
         ret = convert(
             Format.QOBJ,
             self.bell_dict,
             Format.PYQUIL,
             options={
-                "lattice": "aspen",
+                "lattice": lattice,
                 "create_exec_code": False,
                 "shots": 10,
             },
         )
         self.assertTrue("wrap_in_numshots_loop" in ret)
         self.assertFalse("qc.run" in ret)
-        self.assertTrue("aspen" in ret)
+        self.assertTrue(lattice in ret)
 
 
 if __name__ == "__main__":
