@@ -13,6 +13,7 @@
 
 from .qconvert_base import gate_defs
 from .qconvert_qobj import QConvertQobj
+import json
 
 class QobjToToaster(QConvertQobj):
 
@@ -69,6 +70,8 @@ class QobjToToaster(QConvertQobj):
 
 
 	def on_end(self, data):
+		if type(self.result) is dict:
+			self.result = json.dumps(self.result)
 		return
 
 

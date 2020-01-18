@@ -107,7 +107,7 @@ class QConvertBase:
 		if self.options is not None and "all_experiments" in self.options and self.options["all_experiments"]:
 			all_experiments = True
 
-		if not all_experiments:
+		if len(self.results)>0 and not all_experiments:
 			return self.results[0]
 
 		return self.results
