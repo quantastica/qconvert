@@ -2,7 +2,7 @@
 
 Convert between quantum programming languages
 
-More goodies at [https://quantastica.com](https://quantastica.com)
+**More goodies at** [https://quantastica.com](https://quantastica.com)
 
 
 **Supported languages**
