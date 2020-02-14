@@ -32,7 +32,7 @@ class Format(Enum):
 #                                 - "statevector_simulator" will produce WaveFunction simulator code
 #
 #   as_qvm: True/False. if True, QVM will mimic QPU specified by lattice argument. Default: False
-#
+#   seed: if valid integer set random_seed for qc.qam to given value. Default: None 
 # - TOASTER: ...
 
 def convert(source_format, source_dict, dest_format, options = dict() ):

@@ -302,6 +302,12 @@ class QobjToPyquil(QConvertQobj):
 					self.program_body += "qc = get_qc('" + lattice_name + "')\n"
 
 				#
+				# set seed if needed
+				#
+				if "seed" in options and options["seed"]:
+					self.program_body += "qc.qam.random_seed = %d\n" % int(options['seed'])
+
+				#
 				# Compile
 				#
 				self.program_body += "\n"
@@ -329,6 +335,12 @@ class QobjToPyquil(QConvertQobj):
 			#
 			lattice_name = str(info["qubits"]) + "q-qvm"
 			self.program_body += "qc = get_qc('" + lattice_name + "')\n"
+
+			#
+			# set seed if needed
+			#
+			if "seed" in options and options["seed"]:
+				self.program_body += "qc.qam.random_seed = %d\n" % int(options['seed'])
 
 			#
 			# Run

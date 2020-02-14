@@ -73,6 +73,16 @@ class TestConvert(unittest.TestCase):
         self.assertTrue("qc.run" in ret)
         self.assertFalse("WavefunctionSimulator" in ret)
 
+    def test_pyquil_seed(self):
+        ret = convert(
+            Format.QOBJ, self.bell_dict, Format.PYQUIL, options=dict(seed=1)
+        )
+        self.assertTrue(".random_seed" in ret)
+        ret = convert(
+            Format.QOBJ, self.bell_dict, Format.PYQUIL, options=dict()
+        )
+        self.assertFalse(".random_seed" in ret)
+
     # check that qc.run is omited when create_exec_code is set to False
     def test_pyquil_without_qc_run(self):
         ret = convert(
