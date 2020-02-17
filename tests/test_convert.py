@@ -14,6 +14,15 @@
 import unittest
 import json
 import os
+import logging
+import time
+import sys
+
+#!!!
+#sys.path.append("../")
+#!!!
+
+
 from quantastica.qconvert import convert, Format
 
 
@@ -34,13 +43,25 @@ class TestConvert(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.bell_dict = cls.dict_from_file("files/qobj_bell.json")
+        cls.qaoa_dict = cls.dict_from_file("files/qobj_qaoa.json")
         pass
 
     def setUp(self):
-        pass
+        logging.basicConfig(
+            format='%(levelname)s %(asctime)s %(pathname)s - %(message)s',
+            level=os.environ.get("LOGLEVEL", "CRITICAL"),
+        )
+        self.startTime = time.time()
 
     def tearDown(self):
-        pass
+        t = time.time() - self.startTime
+        sys.stderr.write(" took %.3fs ... " % (t))
+
+    def test_qaoa_speed(self):
+        for i in range(0,10):
+            ret = convert(Format.QOBJ, self.qaoa_dict, Format.PYQUIL)
+        self.assertIs(type(ret), str)
+        self.assertTrue(len(ret) > 0)
 
     def test_invalid_params(self):
         self.assertRaises(
