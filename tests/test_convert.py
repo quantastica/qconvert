@@ -17,6 +17,12 @@ import os
 import logging
 import time
 import sys
+
+#!!!
+#sys.path.append("../")
+#!!!
+
+
 from quantastica.qconvert import convert, Format
 
 

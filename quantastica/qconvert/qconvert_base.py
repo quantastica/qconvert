@@ -13,46 +13,42 @@
 
 import os
 import json
+import re
 
 gate_defs_path = os.path.join(os.path.dirname(__file__), "gate_defs.json")
 with open(gate_defs_path) as file:
 	gate_defs = json.load(file)
 
-
 from cmath import *
-import tokenize
-import io
 
-def tokenize_string(s):
-	return tokenize.tokenize(io.BytesIO(s.encode('utf-8')).readline)
+def is_float_str(s):
+	try:
+		float(s)
+		return True
+	except:
+		return False
 
 def eval_mathjs_string(s, params):
-	string = s
-
-	result = []
-	prev = None
-	for tok in tokenize_string(s):
-		if tok.type == tokenize.ENCODING:
-			encoding = tok.string
-
+	# cleanup expression
+	expression = ""
+	tokens = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", s)
+	prev_tok = None
+	for tok in tokens:
 		# replace iota char 'i' with 'j'
-		if tok.string == "i" or tok.string == "j":
-			# single 'i' or 'j' translates to '1j'
-			if prev != tokenize.NUMBER:
-				result.append((tokenize.NAME, "1j"))
+		if tok == "i" or tok == "j":
+			if prev_tok is None or is_float_str(prev_tok) == False:
+				tok = "1j"
 			else:
-				result.append((tokenize.NAME, "j"))
+				tok = "j"
 
 		# lambda appears as variable name in some expressions, but is reserved word in python
-		elif tok.string == "lambda":
-			result.append((tokenize.NAME, "_lambda"))
-		else:
-			result.append(tok)
+		if tok == "lambda":
+			tok = "_lambda"
 
-		prev = tok.type
+		expression += tok
+		prev_tok = tok
 
-	string = tokenize.untokenize(result).decode(encoding)
-
+	# cleanup params
 	clean_params = {}
 	if params is not None:
 		for param_name in params:
@@ -64,7 +60,8 @@ def eval_mathjs_string(s, params):
 
 			clean_params[clean_name] = params[param_name]
 
-	return eval(string, None, clean_params)
+	# evaluate expression
+	return eval(expression, None, clean_params)
 
 
 def eval_mathjs_matrix(matrix, params):
