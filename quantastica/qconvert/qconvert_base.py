@@ -67,8 +67,7 @@ def eval_mathjs_string(s, params):
 
 			clean_params[clean_name] = params[param_name]
 
-	v = eval(prepared, None, clean_params)
-	return v
+	return eval(prepared, None, clean_params)
 
 def eval_mathjs_matrix(matrix, params):
 	res_matrix = []
