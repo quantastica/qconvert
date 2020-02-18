@@ -28,8 +28,10 @@ def is_float_str(s):
 	except:
 		return False
 
-def eval_mathjs_string(s, params):
-	# cleanup expression
+import functools
+
+@functools.lru_cache(maxsize=128)
+def compile_expression(s):
 	expression = ""
 	tokens = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", s)
 	prev_tok = None
@@ -47,6 +49,11 @@ def eval_mathjs_string(s, params):
 
 		expression += tok
 		prev_tok = tok
+	return compile(expression,"test.py",'eval')
+
+def eval_mathjs_string(s, params):
+	# evaluate expression
+	prepared = compile_expression(s)
 
 	# cleanup params
 	clean_params = {}
@@ -60,8 +67,8 @@ def eval_mathjs_string(s, params):
 
 			clean_params[clean_name] = params[param_name]
 
-	# evaluate expression
-	return eval(expression, None, clean_params)
+	v = eval(prepared, None, clean_params)
+	return v
 
 
 def eval_mathjs_matrix(matrix, params):
