@@ -30,7 +30,7 @@ def is_float_str(s):
 
 import functools
 
-@functools.lru_cache(maxsize=128)
+@functools.lru_cache(maxsize=1024)
 def compile_expression(s):
 	expression = ""
 	tokens = re.findall(r"(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])", s)
@@ -70,7 +70,6 @@ def eval_mathjs_string(s, params):
 	v = eval(prepared, None, clean_params)
 	return v
 
-
 def eval_mathjs_matrix(matrix, params):
 	res_matrix = []
 	for row in matrix:
@@ -87,7 +86,6 @@ def eval_mathjs_matrix(matrix, params):
 				res_row.append(cell)
 
 		res_matrix.append(res_row)
-
 	return res_matrix
 
 
