@@ -49,7 +49,7 @@ def compile_expression(s):
 
 		expression += tok
 		prev_tok = tok
-	return compile(expression,"test.py",'eval')
+	return compile(expression,"",'eval')
 
 def eval_mathjs_string(s, params):
 	# evaluate expression
