@@ -12,6 +12,7 @@
 # that they have been altered from the originals.
 
 from .convert import convert
+from .convert import supported_gates
 from .convert import Format
 from .qobj_to_pyquil import qobj_to_pyquil
 from .qobj_to_toaster import qobj_to_toaster

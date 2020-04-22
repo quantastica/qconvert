@@ -13,6 +13,7 @@
 
 from enum import Enum
 from . import qobj_to_pyquil, qobj_to_toaster
+from . import qconvert_base
 
 class Format(Enum):
     UNDEFINED = 0
@@ -51,3 +52,6 @@ def convert(source_format, source_dict, dest_format, options = dict() ):
         raise RuntimeError(msg)
 
     return ret
+
+def supported_gates():
+    return list(qconvert_base.gate_defs.keys())
