@@ -23,12 +23,8 @@
 				"name": "I"
 			},
 			"cirq": {
-				"replacement": {
-					"name": "rz",
-					"params": {
-						"phi": "0"
-					}
-				}
+				"name": "I",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "compactUnitary",
@@ -39,6 +35,9 @@
 			},
 			"qsharp": {
 				"name": "I"
+			},
+			"qiskit": {
+				"name": "iden"
 			}
 		}
 	},
@@ -233,6 +232,46 @@
 						]
 					]
 				]
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "h",
+						"params": {}
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						}
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "h",
+						"params": {}
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						}
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -263,10 +302,7 @@
 			},
 			"cirq": {
 				"replacement": {
-					"name": "rz",
-					"params": {
-						"phi": "pi/2"
-					}
+					"name": "s"
 				}
 			},
 			"quest": {
@@ -274,11 +310,24 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "rz",
-					"params": {
-						"phi": "pi/2"
-					}
+					"name": "s"
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "s",
+						"params": {}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "s",
+						"params": {}
+					}
+				]
 			}
 		}
 	},
@@ -309,10 +358,7 @@
 			},
 			"cirq": {
 				"replacement": {
-					"name": "rz",
-					"params": {
-						"phi": "pi/4"
-					}
+					"name": "t"
 				}
 			},
 			"quest": {
@@ -320,11 +366,24 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "rz",
-					"params": {
-						"phi": "pi/4"
-					}
+					"name": "t"
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "t",
+						"params": {}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "t",
+						"params": {}
+					}
+				]
 			}
 		}
 	},
@@ -350,17 +409,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "pi/8"
+						"lambda": "pi/8"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/8"
 					}
 				}
 			},
@@ -372,11 +431,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "pi/8"
+						"lambda": "pi/8"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "u1",
+						"params": {
+							"lambda": "pi/8"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "u1",
+						"params": {
+							"lambda": "pi/8"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -409,7 +488,7 @@
 				]
 			},
 			"cirq": {
-				"name": "Rx",
+				"name": "rx",
 				"params": [
 					"theta"
 				]
@@ -457,7 +536,7 @@
 				]
 			},
 			"cirq": {
-				"name": "Ry",
+				"name": "ry",
 				"params": [
 					"theta"
 				]
@@ -480,12 +559,12 @@
 		"description": "Rotation around the Z-axis by given angle",
 		"matrix": [
 			[
-				1,
+				"cos(phi / 2) - i * sin(phi / 2)",
 				0
 			],
 			[
 				0,
-				"exp(i * phi)"
+				"cos(phi / 2) + i * sin(phi / 2)"
 			]
 		],
 		"params": [
@@ -505,7 +584,7 @@
 				]
 			},
 			"cirq": {
-				"name": "Rz",
+				"name": "rz",
 				"params": [
 					"theta"
 				]
@@ -547,21 +626,17 @@
 				]
 			},
 			"cirq": {
-				"name": "Rz",
+				"name": "u1",
 				"params": [
 					"lambda"
-				]
+				],
+				"array": "[[1, 0], [0, np.exp(1j*p_lambda)]]",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "phaseShift",
 				"params": [
 					"theta"
-				]
-			},
-			"qsharp": {
-				"name": "Rz",
-				"params": [
-					"lambda"
 				]
 			}
 		}
@@ -595,7 +670,7 @@
 					"phi",
 					"lambda"
 				],
-				"defgate": "DEFGATE u2(%phi, %lambda):\n    1 / sqrt(2), -exp(i * %lambda) * 1 / sqrt(2)\n    exp(i * %phi) * 1 / sqrt(2), exp(i * %lambda + i * %phi) * 1 / sqrt(2)"
+				"defgate": "DEFGATE u2(%phi, %lambda):\n    1/SQRT(2), -1*EXP(i*%lambda)*1/SQRT(2)\n    EXP(i*%phi)*1/SQRT(2), EXP(i*%lambda + i*%phi)*1/SQRT(2)"
 			},
 			"pyquil": {
 				"name": "u2",
@@ -611,7 +686,8 @@
 					"phi",
 					"lambda"
 				],
-				"array": "[[1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)], [np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]"
+				"array": "[[1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)], [np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "unitary",
@@ -675,7 +751,7 @@
 					"phi",
 					"lambda"
 				],
-				"defgate": "DEFGATE u3(%theta, %phi, %lambda):\n    cos(%theta / 2), -exp(i * %lambda) * sin(%theta / 2)\n    exp(i * %phi) * sin(%theta / 2), exp(i * %lambda + i * %phi) * cos(%theta / 2)"
+				"defgate": "DEFGATE u3(%theta, %phi, %lambda):\n    COS(%theta/2), -1*EXP(i*%lambda)*SIN(%theta/2)\n    EXP(i*%phi)*SIN(%theta/2), EXP(i*%lambda + i*%phi)*COS(%theta/2)"
 			},
 			"pyquil": {
 				"name": "u3",
@@ -693,7 +769,8 @@
 					"phi",
 					"lambda"
 				],
-				"array": "[[np.cos(p_theta/2), -np.exp(1j*p_lambda)*np.sin(p_theta/2)], [np.exp(1j*p_phi)*np.sin(p_theta/2), np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]"
+				"array": "[[np.cos(p_theta/2), -np.exp(1j*p_lambda)*np.sin(p_theta/2)], [np.exp(1j*p_phi)*np.sin(p_theta/2), np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "unitary",
@@ -817,17 +894,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "-pi/2"
+						"lambda": "-pi/2"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "-pi/2"
+						"lambda": "-pi/2"
 					}
 				}
 			},
@@ -839,9 +916,9 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "-pi/2"
+						"lambda": "-pi/2"
 					}
 				}
 			}
@@ -869,17 +946,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "-pi/4"
+						"lambda": "-pi/4"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "-pi/4"
+						"lambda": "-pi/4"
 					}
 				}
 			},
@@ -891,9 +968,9 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "rz",
+					"name": "u1",
 					"params": {
-						"phi": "-pi/4"
+						"lambda": "-pi/4"
 					}
 				}
 			}
@@ -988,12 +1065,246 @@
 			"label": "&#x221A;SWP"
 		},
 		"exportInfo": {
+			"quil": {
+				"name": "srswap",
+				"defgate": "DEFGATE srswap:\n    1, 0, 0, 0\n    0, 0.5+0.5i, 0.5-0.5i, 0\n    0, 0.5-0.5i, 0.5+0.5i, 0\n    0, 0, 0, 1"
+			},
 			"cirq": {
 				"name": "SWAP**(1/2)"
+			},
+			"pyquil": {
+				"name": "srswap",
+				"array": "[[1,0,0,0],[0,0.5 * (1 + 1j),0.5 * (1 - 1j),0],[0,0.5 * (1 - 1j),0.5 * (1 + 1j),0],[0,0,0,1]]"
 			},
 			"quest": {
 				"name": "srswap",
 				"func": "void srswap(Qureg qubits, const int q1, const int q2) {\n    controlledNot(qubits, q2, q1);\n    rotateY(qubits, q2, M_PI/2);\n    rotateZ(qubits, q2, M_PI/16);\n    controlledNot(qubits, q1, q2);\n    rotateZ(qubits, q1, M_PI/8);\n    rotateZ(qubits, q2, -M_PI/8);\n    controlledNot(qubits, q1, q2);\n    rotateZ(qubits, q2, M_PI/16);\n    rotateY(qubits, q2, -M_PI/2);\n    controlledNot(qubits, q2, q1);\n}"
+			},
+			"qasm": {
+				"equivalent": [
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "pi/2",
+							"lambda": "-1*pi"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "-1*pi/2",
+							"lambda": "pi"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/4",
+							"phi": "-1*pi/2",
+							"lambda": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "7*pi/4"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/4",
+							"phi": "-1*pi",
+							"lambda": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "pi",
+							"lambda": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "-3*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "pi/2",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
+			},
+			"qiskit": {
+				"equivalent": [
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "pi/2",
+							"lambda": "-1*pi"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "-1*pi/2",
+							"lambda": "pi"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/4",
+							"phi": "-1*pi/2",
+							"lambda": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "7*pi/4"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/4",
+							"phi": "-1*pi",
+							"lambda": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "pi",
+							"lambda": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "-3*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "pi/2",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
 			}
 		}
 	},
@@ -1036,6 +1347,177 @@
 		"exportInfo": {
 			"quil": {
 				"name": "ISWAP"
+			},
+			"cirq": {
+				"name": "ISWAP"
+			},
+			"qasm": {
+				"equivalent": [
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "-1*pi/2",
+							"lambda": "-1*pi"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "-1*pi/2",
+							"lambda": "pi"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "3*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "3*pi/2",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "0"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi",
+							"phi": "pi/4",
+							"lambda": "-1*pi/4"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
+			},
+			"qiskit": {
+				"equivalent": [
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "-1*pi/2",
+							"lambda": "-1*pi"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "-1*pi/2",
+							"lambda": "pi"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "3*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "3*pi/2",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "0",
+							"lambda": "0"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "pi",
+							"phi": "pi/4",
+							"lambda": "-1*pi/4"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
 			}
 		}
 	},
@@ -1083,11 +1565,379 @@
 				"params": [
 					"phi"
 				]
+			},
+			"qasm": {
+				"equivalent": [
+					{
+						"name": "rz",
+						"params": {
+							"phi": "3*pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-3*pi/4"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							1,
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "phi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "phi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							1,
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "3*pi/4"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
+			},
+			"qiskit": {
+				"equivalent": [
+					{
+						"name": "rz",
+						"params": {
+							"phi": "3*pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-3*pi/4"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							1,
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "phi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "phi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							1,
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "3*pi/4"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
+			},
+			"cirq": {
+				"name": "xy",
+				"params": [
+					"phi"
+				],
+				"array": "[[1, 0, 0, 0], [0, np.cos(p_phi/2), 1j*np.sin(p_phi/2), 0], [0, 1j*np.sin(p_phi/2), np.cos(p_phi/2), 0], [0, 0, 0, 1]]",
+				"notTfqSupported": true
 			}
 		}
 	},
 	"cx": {
-		"description": "Controlled Pauli X (PI rotation over X-axis) aka \"CNOT\" gate",
+		"description": "Controlled NOT (CNOT) gate",
 		"matrix": [
 			[
 				1,
@@ -1139,7 +1989,7 @@
 		}
 	},
 	"cy": {
-		"description": "Controlled Pauli Y (PI rotation over Y-axis)",
+		"description": "Controlled Y gate (controlled rotation over Y-axis by PI)",
 		"matrix": [
 			[
 				1,
@@ -1179,13 +2029,28 @@
 			"quest": {
 				"name": "controlledPauliY"
 			},
+			"cirq": {
+				"replacement": {
+					"name": "y",
+					"type": "controlled",
+					"notTfqSupported": true
+				}
+			},
+			"quil": {
+				"name": "cy",
+				"defgate": "DEFGATE cy:\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, 0, -i\n    0, 0, i, 0"
+			},
+			"pyquil": {
+				"name": "cy",
+				"array": "[[1,0,0,0],[0,1,0,0],[0,0,0,-1j],[0,0,1j,0]]"
+			},
 			"qsharp": {
 				"name": "Controlled Y"
 			}
 		}
 	},
 	"cz": {
-		"description": "Controlled Pauli Z (PI rotation over Z-axis)",
+		"description": "Controlled Z gate (controlled rotation over Z-axis by PI)",
 		"matrix": [
 			[
 				1,
@@ -1299,6 +2164,21 @@
 					]
 				]
 			},
+			"cirq": {
+				"replacement": {
+					"name": "h",
+					"type": "controlled",
+					"notTfqSupported": true
+				}
+			},
+			"quil": {
+				"name": "ch",
+				"defgate": "DEFGATE ch:\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, 0.7071067811865475, 0.7071067811865475\n    0, 0, 0.7071067811865475, -0.7071067811865475"
+			},
+			"pyquil": {
+				"name": "ch",
+				"array": "[[1,0,0,0],[0,1,0,0],[0,0,1/np.sqrt(2),1/np.sqrt(2)],[0,0,1/np.sqrt(2),-1/np.sqrt(2)]]"
+			},
 			"qsharp": {
 				"name": "Controlled H"
 			}
@@ -1366,6 +2246,291 @@
 						]
 					]
 				]
+			},
+			"cirq": {
+				"replacement": {
+					"name": "srn",
+					"type": "controlled",
+					"notTfqSupported": true
+				}
+			},
+			"quil": {
+				"name": "csrn",
+				"defgate": "DEFGATE csrn:\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, 0.5+0.5i, 0.5-0.5i\n    0, 0, 0.5-0.5i, 0.5+0.5i"
+			},
+			"qasm": {
+				"equivalent": [
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "3*pi/4"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
+			},
+			"qiskit": {
+				"equivalent": [
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "3*pi/4"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/4"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "cz",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "pi/2"
+						},
+						"wires": [
+							0
+						]
+					},
+					{
+						"name": "rx",
+						"params": {
+							"theta": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "rz",
+						"params": {
+							"phi": "-1*pi/2"
+						},
+						"wires": [
+							1
+						]
+					}
+				]
+			},
+			"pyquil": {
+				"name": "csrn",
+				"array": "[[1,0,0,0],[0,1,0,0],[0,0,0.5+0.5j,0.5-0.5j],[0,0,0.5-0.5j,0.5+0.5j]]"
 			}
 		}
 	},
@@ -1413,7 +2578,7 @@
 				"params": [
 					"theta"
 				],
-				"defgate": "DEFGATE ms(%theta):\n    cos(%theta), 0, 0, -i*sin(%theta)\n    0, cos(%theta), -i*sin(%theta), 0\n    0, -i*sin(%theta), cos(%theta), 0\n    -i*sin(%theta), 0, 0, cos(%theta)"
+				"defgate": "DEFGATE ms(%theta):\n    COS(%theta), 0, 0, -i*SIN(%theta)\n    0, COS(%theta), -i*SIN(%theta), 0\n    0, -i*SIN(%theta), COS(%theta), 0\n    -i*SIN(%theta), 0, 0, COS(%theta)"
 			},
 			"pyquil": {
 				"name": "ms",
@@ -1423,11 +2588,14 @@
 				"array": "[ [quil_cos(p_theta), 0, 0, -1j*quil_sin(p_theta)], [0, quil_cos(p_theta), -1j*quil_sin(p_theta), 0], [0, -1j*quil_sin(p_theta), quil_cos(p_theta), 0], [-1j*quil_sin(p_theta), 0, 0, quil_cos(p_theta)] ]"
 			},
 			"cirq": {
-				"name": "MS"
+				"name": "ms"
 			},
 			"quest": {
 				"name": "ms",
 				"func": "TODO"
+			},
+			"qiskit": {
+				"name": "rxx"
 			}
 		}
 	},
@@ -1475,7 +2643,10 @@
 				"params": [
 					"theta"
 				],
-				"defgate": "DEFGATE yy(%theta):\n    cos(%theta), 0, 0, i*sin(%theta)\n    0, cos(%theta), -i*sin(%theta), 0\n    0, -i*sin(%theta), cos(%theta), 0\n    i*sin(%theta), 0, 0, cos(%theta)"
+				"defgate": "DEFGATE yy(%theta):\n    COS(%theta), 0, 0, i*SIN(%theta)\n    0, COS(%theta), -i*SIN(%theta), 0\n    0, -i*SIN(%theta), COS(%theta), 0\n    i*SIN(%theta), 0, 0, COS(%theta)"
+			},
+			"cirq": {
+				"name": "YY"
 			},
 			"pyquil": {
 				"name": "yy",
@@ -1530,17 +2701,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/2"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/2"
 					}
 				}
 			},
@@ -1552,11 +2723,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/2"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/2"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/2"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -1600,17 +2791,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/4"
+						"lambda": "pi/4"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/4"
+						"lambda": "pi/4"
 					}
 				}
 			},
@@ -1622,11 +2813,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/4"
+						"lambda": "pi/4"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/4"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/4"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -1670,17 +2881,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/8"
+						"lambda": "pi/8"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/8"
+						"lambda": "pi/8"
 					}
 				}
 			},
@@ -1692,11 +2903,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/8"
+						"lambda": "pi/8"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/8"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/8"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -1745,7 +2976,17 @@
 				"params": [
 					"theta"
 				],
-				"defgate": "DEFGATE crx(%theta):\n    1, 0, 0, 0,\n    0, 1, 0, 0,\n    0, 0, cos(%theta / 2), -i*sin(%theta / 2),\n    0, 0, -i*sin(%theta / 2), cos(%theta / 2)"
+				"defgate": "DEFGATE crx(%theta):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, COS(%theta/2), -i*SIN(%theta/2)\n    0, 0, -i*SIN(%theta/2), COS(%theta/2)"
+			},
+			"cirq": {
+				"replacement": {
+					"name": "rx",
+					"params": {
+						"theta": "theta"
+					},
+					"type": "controlled",
+					"notTfqSupported": true
+				}
 			},
 			"pyquil": {
 				"name": "crx",
@@ -1787,6 +3028,30 @@
 				"params": [
 					"theta"
 				]
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu3",
+						"params": {
+							"theta": "theta",
+							"phi": "-1*pi/2",
+							"lambda": "pi/2"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu3",
+						"params": {
+							"theta": "theta",
+							"phi": "-1*pi/2",
+							"lambda": "pi/2"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -1809,7 +3074,7 @@
 				0,
 				0,
 				"cos(theta / 2)",
-				"-1i * sin(theta / 2)"
+				"-1 * sin(theta / 2)"
 			],
 			[
 				0,
@@ -1835,7 +3100,17 @@
 				"params": [
 					"theta"
 				],
-				"defgate": "DEFGATE cry(%theta):\n    1, 0, 0, 0,\n    0, 1, 0, 0,\n    0, 0, cos(%theta / 2), -1*sin(%theta / 2),\n    0, 0, sin(%theta / 2), cos(%theta / 2)"
+				"defgate": "DEFGATE cry(%theta):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, COS(%theta/2), -1*SIN(%theta/2)\n    0, 0, SIN(%theta/2), COS(%theta/2)"
+			},
+			"cirq": {
+				"replacement": {
+					"name": "ry",
+					"params": {
+						"theta": "theta"
+					},
+					"type": "controlled",
+					"notTfqSupported": true
+				}
 			},
 			"pyquil": {
 				"name": "cry",
@@ -1877,6 +3152,86 @@
 				"params": [
 					"theta"
 				]
+			},
+			"qasm": {
+				"equivalent": [
+					{
+						"name": "u3",
+						"params": {
+							"theta": "theta/2",
+							"phi": "0",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "-1*theta / 2",
+							"phi": "0",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					}
+				]
+			},
+			"qiskit": {
+				"equivalent": [
+					{
+						"name": "u3",
+						"params": {
+							"theta": "theta/2",
+							"phi": "0",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					},
+					{
+						"name": "u3",
+						"params": {
+							"theta": "-1*theta / 2",
+							"phi": "0",
+							"lambda": "0"
+						},
+						"wires": [
+							1
+						]
+					},
+					{
+						"name": "cx",
+						"wires": [
+							0,
+							1
+						]
+					}
+				]
 			}
 		}
 	},
@@ -1898,14 +3253,14 @@
 			[
 				0,
 				0,
-				1,
+				"cos(phi / 2) - i * sin(phi / 2)",
 				0
 			],
 			[
 				0,
 				0,
 				0,
-				"exp(i * phi)"
+				"cos(phi / 2) + i * sin(phi / 2)"
 			]
 		],
 		"params": [
@@ -1921,20 +3276,30 @@
 		},
 		"exportInfo": {
 			"quil": {
-				"name": "CPHASE",
-				"params": [
-					"phi"
-				]
-			},
-			"cirq": {
 				"name": "crz",
 				"params": [
 					"phi"
 				],
-				"array": "[ [1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0, np.exp(1j * p_phi)] ]"
+				"defgate": "DEFGATE crz(%phi):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, COS(%phi / 2) - i * SIN(%phi / 2), 0\n    0, 0, 0, COS(%phi / 2) + i * SIN(%phi / 2)"
+			},
+			"pyquil": {
+				"name": "crz",
+				"params": [
+					"phi"
+				],
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, quil_cos(p_phi / 2) - 1j * quil_sin(p_phi / 2), 0], [0, 0, 0, quil_cos(p_phi / 2) + 1j * quil_sin(p_phi / 2)]]"
+			},
+			"cirq": {
+				"replacement": {
+					"name": "rz",
+					"params": {
+						"phi": "phi"
+					},
+					"type": "controlled"
+				}
 			},
 			"quest": {
-				"name": "controlledPhaseShift",
+				"name": "controlledRotateZ",
 				"params": [
 					"theta"
 				]
@@ -1998,18 +3363,13 @@
 				"params": [
 					"lambda"
 				],
-				"array": "[ [1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0, np.exp(1j * p_lambda)] ]"
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(1j*p_lambda)]]",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "controlledPhaseShift",
 				"params": [
 					"theta"
-				]
-			},
-			"qsharp": {
-				"name": "Controlled Rz",
-				"params": [
-					"phi"
 				]
 			}
 		}
@@ -2061,7 +3421,7 @@
 					"phi",
 					"lambda"
 				],
-				"defgate": "DEFGATE cu2(%phi, %lambda):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, 1 / sqrt(2), -exp(i * %lambda) * 1 / sqrt(2)\n    0, 0, exp(i * %phi) * 1 / sqrt(2), exp(i * %lambda + i * %phi) * 1 / sqrt(2)"
+				"defgate": "DEFGATE cu2(%phi, %lambda):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, 1/SQRT(2), -1*EXP(i*%lambda)*1/SQRT(2)\n    0, 0, EXP(i*%phi)*1/SQRT(2), EXP(i*%lambda + i*%phi)*1/SQRT(2)"
 			},
 			"pyquil": {
 				"name": "cu2",
@@ -2077,7 +3437,8 @@
 					"phi",
 					"lambda"
 				],
-				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)],[0, 0, np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]"
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)],[0, 0, np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "controlledUnitary",
@@ -2106,6 +3467,30 @@
 							"sin(lambda+phi)/sqrt(2)"
 						]
 					]
+				]
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "phi",
+							"lambda": "lambda"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu3",
+						"params": {
+							"theta": "pi/2",
+							"phi": "phi",
+							"lambda": "lambda"
+						}
+					}
 				]
 			}
 		}
@@ -2159,7 +3544,7 @@
 					"phi",
 					"lambda"
 				],
-				"defgate": "DEFGATE cu3(%theta, %phi, %lambda):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, cos(%theta / 2), -exp(i * %lambda) * sin(%theta / 2)\n    0, 0, exp(i * %phi) * sin(%theta / 2), exp(i * %lambda + i * %phi) * cos(%theta / 2)"
+				"defgate": "DEFGATE cu3(%theta, %phi, %lambda):\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, COS(%theta/2), -1*EXP(i*%lambda)*SIN(%theta/2)\n    0, 0, EXP(i*%phi)*SIN(%theta/2), EXP(i*%lambda + i*%phi)*COS(%theta/2)"
 			},
 			"pyquil": {
 				"name": "cu3",
@@ -2177,7 +3562,8 @@
 					"phi",
 					"lambda"
 				],
-				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, np.cos(p_theta/2),-np.exp(1j*p_lambda)*np.sin(p_theta/2)],[0, 0, np.exp(1j*p_phi)*np.sin(p_theta/2),np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]"
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, np.cos(p_theta/2),-np.exp(1j*p_lambda)*np.sin(p_theta/2)],[0, 0, np.exp(1j*p_phi)*np.sin(p_theta/2),np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "controlledUnitary",
@@ -2251,17 +3637,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/2"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/2"
 					}
 				}
 			},
@@ -2273,11 +3659,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/2"
+						"lambda": "pi/2"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/2"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/2"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -2321,17 +3727,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/4"
+						"lambda": "pi/4"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/4"
+						"lambda": "pi/4"
 					}
 				}
 			},
@@ -2343,11 +3749,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "pi/4"
+						"lambda": "pi/4"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/4"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "pi/4"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -2391,17 +3817,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "-pi/2"
+						"lambda": "-pi/2"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "-pi/2"
+						"lambda": "-pi/2"
 					}
 				}
 			},
@@ -2413,11 +3839,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "-pi/2"
+						"lambda": "-pi/2"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "-pi/2"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "-pi/2"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -2461,17 +3907,17 @@
 		"exportInfo": {
 			"quil": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "-pi/4"
+						"lambda": "-pi/4"
 					}
 				}
 			},
 			"cirq": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "-pi/4"
+						"lambda": "-pi/4"
 					}
 				}
 			},
@@ -2483,11 +3929,31 @@
 			},
 			"qsharp": {
 				"replacement": {
-					"name": "crz",
+					"name": "cu1",
 					"params": {
-						"phi": "-pi/4"
+						"lambda": "-pi/4"
 					}
 				}
+			},
+			"qasm": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "-pi/4"
+						}
+					}
+				]
+			},
+			"qiskit": {
+				"replacement": [
+					{
+						"name": "cu1",
+						"params": {
+							"lambda": "-pi/4"
+						}
+					}
+				]
 			}
 		}
 	},
@@ -2590,11 +4056,12 @@
 				"name": "CCNOT"
 			},
 			"cirq": {
-				"name": "CCX"
+				"name": "CCX",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "ccx",
-				"func": "void ccx(Qureg qubits, const int q1, const int q2, const int q3) {\n    hadamard(qubits, q3);\n    controlledNot(qubits, q2, q3);\n    phaseShift(qubits, q3, -M_PI/4);\n    controlledNot(qubits, q1, q3);\n    tGate(qubits, q3);\n    controlledNot(qubits, q2, q3);\n    phaseShift(qubits, q3, -M_PI/4);\n    controlledNot(qubits, q1, q3);\n    tGate(qubits, q2);\n    tGate(qubits, q3);\n    hadamard(qubits, q3);\n    controlledNot(qubits, q1, q2);\n    tGate(qubits, q1);\n    phaseShift(qubits, q2, -M_PI/4);\n    controlledNot(qubits, q2, q3);\n}"
+				"func": "void ccx(Qureg qubits, const int q1, const int q2, const int q3) {\n    hadamard(qubits, q3);\n    controlledNot(qubits, q2, q3);\n    phaseShift(qubits, q3, -M_PI/4);\n    controlledNot(qubits, q1, q3);\n    tGate(qubits, q3);\n    controlledNot(qubits, q2, q3);\n    phaseShift(qubits, q3, -M_PI/4);\n    controlledNot(qubits, q1, q3);\n    tGate(qubits, q2);\n    tGate(qubits, q3);\n    controlledNot(qubits, q1, q2);\n    hadamard(qubits, q3);\n    tGate(qubits, q1);\n    phaseShift(qubits, q2, -M_PI/4);\n    controlledNot(qubits, q1, q2);\n}"
 			},
 			"qsharp": {
 				"name": "CCNOT"
@@ -2705,6 +4172,12 @@
 			},
 			"qsharp": {
 				"name": "Controlled SWAP"
+			},
+			"quil": {
+				"name": "CSWAP"
+			},
+			"pyquil": {
+				"name": "CSWAP"
 			}
 		}
 	},
@@ -2806,6 +4279,21 @@
 			"quest": {
 				"name": "csrswap",
 				"func": "TODO"
+			},
+			"cirq": {
+				"replacement": {
+					"name": "srswap",
+					"type": "controlled",
+					"notTfqSupported": true
+				}
+			},
+			"quil": {
+				"name": "csrswap",
+				"defgate": "DEFGATE csrswap:\n    1, 0, 0, 0, 0, 0, 0, 0\n    0, 1, 0, 0, 0, 0, 0, 0\n    0, 0, 1, 0, 0, 0, 0, 0\n    0, 0, 0, 1, 0, 0, 0, 0\n    0, 0, 0, 0, 1, 0, 0, 0\n    0, 0, 0, 0, 0, 0.5+0.5i, 0.5-0.5i, 0\n    0, 0, 0, 0, 0, 0.5-0.5i, 0.5+0.5i, 0\n    0, 0, 0, 0, 0, 0, 0, 1"
+			},
+			"pyquil": {
+				"name": "csrswap",
+				"array": "[[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,0.5 * (1 + 1j),0.5 * (1 - 1j),0],[0,0,0,0,0,0.5 * (1 - 1j),0.5 * (1 + 1j),0],[0,0,0,0,0,0,0,1]]"
 			}
 		}
 	},
@@ -2824,7 +4312,8 @@
 				"name": "RESET"
 			},
 			"cirq": {
-				"name": "reset"
+				"name": "reset",
+				"notTfqSupported": true
 			},
 			"quest": {
 				"name": "reset",
