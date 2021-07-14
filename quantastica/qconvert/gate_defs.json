@@ -38,6 +38,12 @@
 			},
 			"qiskit": {
 				"name": "iden"
+			},
+			"braket": {
+				"name": "i"
+			},
+			"aqasm": {
+				"name": "I"
 			}
 		}
 	},
@@ -71,6 +77,15 @@
 				"name": "pauliX"
 			},
 			"qsharp": {
+				"name": "X"
+			},
+			"quirk": {
+				"name": "X"
+			},
+			"braket": {
+				"name": "x"
+			},
+			"aqasm": {
 				"name": "X"
 			}
 		}
@@ -106,6 +121,15 @@
 			},
 			"qsharp": {
 				"name": "Y"
+			},
+			"quirk": {
+				"name": "Y"
+			},
+			"braket": {
+				"name": "y"
+			},
+			"aqasm": {
+				"name": "Y"
 			}
 		}
 	},
@@ -139,6 +163,15 @@
 				"name": "pauliZ"
 			},
 			"qsharp": {
+				"name": "Z"
+			},
+			"quirk": {
+				"name": "Z"
+			},
+			"braket": {
+				"name": "z"
+			},
+			"aqasm": {
 				"name": "Z"
 			}
 		}
@@ -174,6 +207,15 @@
 			},
 			"qsharp": {
 				"name": "H"
+			},
+			"quirk": {
+				"name": "H"
+			},
+			"braket": {
+				"name": "h"
+			},
+			"aqasm": {
+				"name": "H"
 			}
 		}
 	},
@@ -194,7 +236,7 @@
 			"connectors": [
 				"box"
 			],
-			"label": "&#x221A;NOT"
+			"label": "&#x221A;X"
 		},
 		"exportInfo": {
 			"quil": {
@@ -213,65 +255,127 @@
 				"matrix": [
 					[
 						[
-							"1/sqrt(2)",
-							"0"
+							"0.5",
+							"0.5"
 						],
 						[
-							"-1/sqrt(2)",
-							"0"
+							"0.5",
+							"-0.5"
 						]
 					],
 					[
 						[
-							"-1/sqrt(2)",
-							"0"
+							"0.5",
+							"-0.5"
 						],
 						[
-							"1/sqrt(2)",
-							"0"
+							"0.5",
+							"0.5"
 						]
 					]
 				]
 			},
 			"qasm": {
-				"replacement": [
-					{
-						"name": "h",
-						"params": {}
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						}
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/2"
-						}
-					}
-				]
+				"name": "sx"
 			},
 			"qiskit": {
-				"replacement": [
-					{
-						"name": "h",
-						"params": {}
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						}
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/2"
-						}
-					}
+				"name": "sx"
+			},
+			"braket": {
+				"name": "v"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						"0.5+0.5i",
+						"0.5-0.5i"
+					],
+					[
+						"0.5-0.5i",
+						"0.5+0.5i"
+					]
+				],
+				"array": "[[0.5+0.5j, 0.5-0.5j], [0.5-0.5j, 0.5+0.5j]]"
+			}
+		}
+	},
+	"srndg": {
+		"description": "Inverse square root of NOT",
+		"matrix": [
+			[
+				"0.5-0.5i",
+				"0.5+0.5i"
+			],
+			[
+				"0.5+0.5i",
+				"0.5-0.5i"
+			]
+		],
+		"params": [],
+		"drawingInfo": {
+			"connectors": [
+				"box"
+			],
+			"label": "&#x221A;X&#8224;"
+		},
+		"exportInfo": {
+			"quil": {
+				"name": "srndg",
+				"defgate": "DEFGATE srndg:\n    0.5-0.5i, 0.5+0.5i\n    0.5+0.5i, 0.5-0.5i"
+			},
+			"pyquil": {
+				"name": "srndg",
+				"array": "[[0.5-0.5j, 0.5+0.5j], [0.5+0.5j, 0.5-0.5j]]"
+			},
+			"cirq": {
+				"name": "X**(-1/2)"
+			},
+			"quest": {
+				"name": "unitary",
+				"matrix": [
+					[
+						[
+							"0.5",
+							"-0.5"
+						],
+						[
+							"0.5",
+							"0.5"
+						]
+					],
+					[
+						[
+							"0.5",
+							"0.5"
+						],
+						[
+							"0.5",
+							"-0.5"
+						]
+					]
 				]
+			},
+			"qasm": {
+				"name": "sxdg"
+			},
+			"qiskit": {
+				"name": "sxdg"
+			},
+			"braket": {
+				"name": "vi"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						"0.5-0.5i",
+						"0.5+0.5i"
+					],
+					[
+						"0.5+0.5i",
+						"0.5-0.5i"
+					]
+				],
+				"array": "[[0.5-0.5j, 0.5+0.5j], [0.5+0.5j, 0.5-0.5j]]"
 			}
 		}
 	},
@@ -328,6 +432,15 @@
 						"params": {}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^½"
+			},
+			"braket": {
+				"name": "s"
+			},
+			"aqasm": {
+				"name": "S"
 			}
 		}
 	},
@@ -384,6 +497,15 @@
 						"params": {}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^¼"
+			},
+			"braket": {
+				"name": "t"
+			},
+			"aqasm": {
+				"name": "T"
 			}
 		}
 	},
@@ -456,6 +578,28 @@
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^⅛"
+			},
+			"braket": {
+				"name": "phaseshift",
+				"params": {
+					"theta": "pi/8"
+				}
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						1,
+						0
+					],
+					[
+						0,
+						"exp(i * pi / 8)"
+					]
+				],
+				"array": "[[1,0],[0,np.exp(1j * np.pi / 8)]]"
 			}
 		}
 	},
@@ -504,6 +648,15 @@
 				"params": [
 					"theta"
 				]
+			},
+			"braket": {
+				"name": "rx",
+				"params": [
+					"theta"
+				]
+			},
+			"aqasm": {
+				"name": "RX"
 			}
 		}
 	},
@@ -552,6 +705,15 @@
 				"params": [
 					"theta"
 				]
+			},
+			"braket": {
+				"name": "ry",
+				"params": [
+					"theta"
+				]
+			},
+			"aqasm": {
+				"name": "RY"
 			}
 		}
 	},
@@ -594,11 +756,20 @@
 				"params": [
 					"theta"
 				]
+			},
+			"braket": {
+				"name": "rz",
+				"params": [
+					"phi"
+				]
+			},
+			"aqasm": {
+				"name": "RZ"
 			}
 		}
 	},
 	"u1": {
-		"description": "1-parameter 0-pulse single qubit gate",
+		"description": "Single-qubit rotation about the Z axis",
 		"matrix": [
 			[
 				1,
@@ -636,13 +807,22 @@
 			"quest": {
 				"name": "phaseShift",
 				"params": [
-					"theta"
+					"lambda"
 				]
+			},
+			"braket": {
+				"name": "phaseshift",
+				"params": [
+					"lambda"
+				]
+			},
+			"aqasm": {
+				"name": "PH"
 			}
 		}
 	},
 	"u2": {
-		"description": "2-parameter 1-pulse single qubit gate",
+		"description": "Single-qubit rotation about the X+Z axis",
 		"matrix": [
 			[
 				"1 / sqrt(2)",
@@ -717,11 +897,36 @@
 						]
 					]
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"phi",
+					"lambda"
+				],
+				"array": "[[1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)], [np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						"1 / sqrt(2)",
+						"-exp(i * lambda) * 1 / sqrt(2)"
+					],
+					[
+						"exp(i * phi) * 1 / sqrt(2)",
+						"exp(i * lambda + i * phi) * 1 / sqrt(2)"
+					]
+				],
+				"array": "[[1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)], [np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]",
+				"params": [
+					"phi",
+					"lambda"
+				]
 			}
 		}
 	},
 	"u3": {
-		"description": "3-parameter 2-pulse single qubit gate",
+		"description": "Generic single-qubit rotation gate with 3 Euler angles",
 		"matrix": [
 			[
 				"cos(theta/2)",
@@ -801,6 +1006,33 @@
 						]
 					]
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"theta",
+					"phi",
+					"lambda"
+				],
+				"array": "[[np.cos(p_theta/2), -np.exp(1j*p_lambda)*np.sin(p_theta/2)], [np.exp(1j*p_phi)*np.sin(p_theta/2), np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						"cos(theta/2)",
+						"-exp(i * lambda) * sin(theta / 2)"
+					],
+					[
+						"exp(i * phi) * sin(theta / 2)",
+						"exp(i * lambda + i * phi) * cos(theta / 2)"
+					]
+				],
+				"array": "[[np.cos(p_theta/2), -np.exp(1j*p_lambda)*np.sin(p_theta/2)], [np.exp(1j*p_phi)*np.sin(p_theta/2), np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]",
+				"params": [
+					"theta",
+					"phi",
+					"lambda"
+				]
 			}
 		}
 	},
@@ -834,6 +1066,15 @@
 				"name": "sGate"
 			},
 			"qsharp": {
+				"name": "S"
+			},
+			"quirk": {
+				"name": "Z^½"
+			},
+			"braket": {
+				"name": "s"
+			},
+			"aqasm": {
 				"name": "S"
 			}
 		}
@@ -869,6 +1110,15 @@
 			},
 			"qsharp": {
 				"name": "T"
+			},
+			"quirk": {
+				"name": "Z^¼"
+			},
+			"braket": {
+				"name": "t"
+			},
+			"aqasm": {
+				"name": "T"
 			}
 		}
 	},
@@ -881,7 +1131,7 @@
 			],
 			[
 				0,
-				"exp(-1i * pi / 2)"
+				"exp(-i * pi / 2)"
 			]
 		],
 		"params": [],
@@ -921,6 +1171,16 @@
 						"lambda": "-pi/2"
 					}
 				}
+			},
+			"quirk": {
+				"name": "Z^-½"
+			},
+			"braket": {
+				"name": "si"
+			},
+			"aqasm": {
+				"name": "S",
+				"dagger": true
 			}
 		}
 	},
@@ -933,7 +1193,7 @@
 			],
 			[
 				0,
-				"exp(-1i * pi / 4)"
+				"exp(-i * pi / 4)"
 			]
 		],
 		"params": [],
@@ -973,6 +1233,16 @@
 						"lambda": "-pi/4"
 					}
 				}
+			},
+			"quirk": {
+				"name": "Z^-¼"
+			},
+			"braket": {
+				"name": "ti"
+			},
+			"aqasm": {
+				"name": "T",
+				"dagger": true
 			}
 		}
 	},
@@ -1024,6 +1294,15 @@
 				"func": "void swap(Qureg qubits, const int q1, const int q2) {\n    controlledNot(qubits, q1, q2);\n    controlledNot(qubits, q2, q1);\n    controlledNot(qubits, q1, q2);\n}"
 			},
 			"qsharp": {
+				"name": "SWAP"
+			},
+			"quirk": {
+				"name": "Swap"
+			},
+			"braket": {
+				"name": "swap"
+			},
+			"aqasm": {
 				"name": "SWAP"
 			}
 		}
@@ -1305,6 +1584,13 @@
 						]
 					}
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,0.5 * (1 + 1j),0.5 * (1 - 1j),0],[0,0.5 * (1 - 1j),0.5 * (1 + 1j),0],[0,0,0,1]]"
+			},
+			"aqasm": {
+				"name": "SQRTSWAP"
 			}
 		}
 	},
@@ -1518,6 +1804,12 @@
 						]
 					}
 				]
+			},
+			"braket": {
+				"name": "iswap"
+			},
+			"aqasm": {
+				"name": "ISWAP"
 			}
 		}
 	},
@@ -1533,12 +1825,12 @@
 			[
 				0,
 				"cos(phi / 2)",
-				"1i * sin(phi / 2)",
+				"i * sin(phi / 2)",
 				0
 			],
 			[
 				0,
-				"1i * sin(phi / 2)",
+				"i * sin(phi / 2)",
 				"cos(phi / 2)",
 				0
 			],
@@ -1933,6 +2225,44 @@
 				],
 				"array": "[[1, 0, 0, 0], [0, np.cos(p_phi/2), 1j*np.sin(p_phi/2), 0], [0, 1j*np.sin(p_phi/2), np.cos(p_phi/2), 0], [0, 0, 0, 1]]",
 				"notTfqSupported": true
+			},
+			"braket": {
+				"name": "xy",
+				"params": [
+					"phi"
+				]
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						1,
+						0,
+						0,
+						0
+					],
+					[
+						0,
+						"cos(phi / 2)",
+						"i * sin(phi / 2)",
+						0
+					],
+					[
+						0,
+						"i * sin(phi / 2)",
+						"cos(phi / 2)",
+						0
+					],
+					[
+						0,
+						0,
+						0,
+						1
+					]
+				],
+				"array": "[[1, 0, 0, 0], [0, np.cos(p_phi/2), 1j*np.sin(p_phi/2), 0], [0, 1j*np.sin(p_phi/2), np.cos(p_phi/2), 0], [0, 0, 0, 1]]",
+				"params": [
+					"phi"
+				]
 			}
 		}
 	},
@@ -1985,6 +2315,16 @@
 			},
 			"qsharp": {
 				"name": "CNOT"
+			},
+			"quirk": {
+				"name": "X",
+				"controlled": true
+			},
+			"braket": {
+				"name": "cnot"
+			},
+			"aqasm": {
+				"name": "CNOT"
 			}
 		}
 	},
@@ -2007,7 +2347,7 @@
 				0,
 				0,
 				0,
-				"-1i"
+				"-i"
 			],
 			[
 				0,
@@ -2046,6 +2386,17 @@
 			},
 			"qsharp": {
 				"name": "Controlled Y"
+			},
+			"quirk": {
+				"name": "Y",
+				"controlled": true
+			},
+			"braket": {
+				"name": "cy"
+			},
+			"aqasm": {
+				"name": "Y",
+				"controlled": true
 			}
 		}
 	},
@@ -2098,6 +2449,16 @@
 			},
 			"qsharp": {
 				"name": "Controlled Z"
+			},
+			"quirk": {
+				"name": "Z",
+				"controlled": true
+			},
+			"braket": {
+				"name": "cz"
+			},
+			"aqasm": {
+				"name": "CSIGN"
 			}
 		}
 	},
@@ -2181,6 +2542,18 @@
 			},
 			"qsharp": {
 				"name": "Controlled H"
+			},
+			"quirk": {
+				"name": "H",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,1,0,0],[0,0,1/np.sqrt(2),1/np.sqrt(2)],[0,0,1/np.sqrt(2),-1/np.sqrt(2)]]"
+			},
+			"aqasm": {
+				"name": "H",
+				"controlled": true
 			}
 		}
 	},
@@ -2218,7 +2591,7 @@
 				"dot",
 				"box"
 			],
-			"label": "&#x221A;NOT",
+			"label": "&#x221A;X",
 			"root": "srn"
 		},
 		"exportInfo": {
@@ -2259,277 +2632,46 @@
 				"defgate": "DEFGATE csrn:\n    1, 0, 0, 0\n    0, 1, 0, 0\n    0, 0, 0.5+0.5i, 0.5-0.5i\n    0, 0, 0.5-0.5i, 0.5+0.5i"
 			},
 			"qasm": {
-				"equivalent": [
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/4"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/2"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi/2"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "3*pi/4"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "cz",
-						"wires": [
-							0,
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "pi/4"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "cz",
-						"wires": [
-							0,
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/2"
-						},
-						"wires": [
-							1
-						]
-					}
-				]
+				"name": "csx"
 			},
 			"qiskit": {
-				"equivalent": [
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/4"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/2"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi/2"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "3*pi/4"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "cz",
-						"wires": [
-							0,
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "pi/4"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "cz",
-						"wires": [
-							0,
-							1
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "pi/2"
-						},
-						"wires": [
-							0
-						]
-					},
-					{
-						"name": "rx",
-						"params": {
-							"theta": "-1*pi/2"
-						},
-						"wires": [
-							1
-						]
-					},
-					{
-						"name": "rz",
-						"params": {
-							"phi": "-1*pi/2"
-						},
-						"wires": [
-							1
-						]
-					}
-				]
+				"name": "csx"
 			},
 			"pyquil": {
 				"name": "csrn",
+				"array": "[[1,0,0,0],[0,1,0,0],[0,0,0.5+0.5j,0.5-0.5j],[0,0,0.5-0.5j,0.5+0.5j]]"
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,1,0,0],[0,0,0.5+0.5j,0.5-0.5j],[0,0,0.5-0.5j,0.5+0.5j]]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						1,
+						0,
+						0,
+						0
+					],
+					[
+						0,
+						1,
+						0,
+						0
+					],
+					[
+						0,
+						0,
+						"0.5+0.5i",
+						"0.5-0.5i"
+					],
+					[
+						0,
+						0,
+						"0.5-0.5i",
+						"0.5+0.5i"
+					]
+				],
 				"array": "[[1,0,0,0],[0,1,0,0],[0,0,0.5+0.5j,0.5-0.5j],[0,0,0.5-0.5j,0.5+0.5j]]"
 			}
 		}
@@ -2570,7 +2712,7 @@
 				"circle",
 				"circle"
 			],
-			"label": "X"
+			"label": "XX"
 		},
 		"exportInfo": {
 			"quil": {
@@ -2594,8 +2736,50 @@
 				"name": "ms",
 				"func": "TODO"
 			},
+			"qasm": {
+				"name": "rxx"
+			},
 			"qiskit": {
 				"name": "rxx"
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"theta"
+				],
+				"array": "[[np.cos(p_theta), 0, 0, -1j*np.sin(p_theta)], [0, np.cos(p_theta), -1j*np.sin(p_theta), 0], [0, -1j*np.sin(p_theta), np.cos(p_theta), 0], [-1j*np.sin(p_theta), 0, 0, np.cos(p_theta)] ]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						"cos(theta)",
+						0,
+						0,
+						"-i*sin(theta)"
+					],
+					[
+						0,
+						"cos(theta)",
+						"-i*sin(theta)",
+						0
+					],
+					[
+						0,
+						"-i*sin(theta)",
+						"cos(theta)",
+						0
+					],
+					[
+						"-i*sin(theta)",
+						0,
+						0,
+						"cos(theta)"
+					]
+				],
+				"array": "[[np.cos(p_theta), 0, 0, -1j*np.sin(p_theta)], [0, np.cos(p_theta), -1j*np.sin(p_theta), 0], [0, -1j*np.sin(p_theta), np.cos(p_theta), 0], [-1j*np.sin(p_theta), 0, 0, np.cos(p_theta)] ]",
+				"params": [
+					"theta"
+				]
 			}
 		}
 	},
@@ -2635,7 +2819,7 @@
 				"circle",
 				"circle"
 			],
-			"label": "Y"
+			"label": "YY"
 		},
 		"exportInfo": {
 			"quil": {
@@ -2658,6 +2842,111 @@
 			"quest": {
 				"name": "yy",
 				"func": "TODO"
+			},
+			"braket": {
+				"name": "yy",
+				"params": [
+					"theta"
+				]
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						"cos(theta)",
+						0,
+						0,
+						"i*sin(theta)"
+					],
+					[
+						0,
+						"cos(theta)",
+						"-i*sin(theta)",
+						0
+					],
+					[
+						0,
+						"-i*sin(theta)",
+						"cos(theta)",
+						0
+					],
+					[
+						"i*sin(theta)",
+						0,
+						0,
+						"cos(theta)"
+					]
+				],
+				"array": "[[np.cos(p_theta), 0, 0, 1j*np.sin(p_theta)], [0, np.cos(p_theta), -1j*np.sin(p_theta), 0], [0, -1j*np.sin(p_theta), np.cos(p_theta), 0], [1j*np.sin(p_theta), 0, 0, np.cos(p_theta)] ]",
+				"params": [
+					"theta"
+				]
+			},
+			"qasm": {
+				"name": "ryy"
+			},
+			"qiskit": {
+				"name": "ryy"
+			}
+		}
+	},
+	"zz": {
+		"description": "Parametric 2-qubit rotation about ZZ",
+		"matrix": [
+			[
+				"exp(-i * theta / 2)",
+				0,
+				0,
+				0
+			],
+			[
+				0,
+				"exp(i * theta / 2)",
+				0,
+				0
+			],
+			[
+				0,
+				0,
+				"exp(i * theta / 2)",
+				0
+			],
+			[
+				0,
+				0,
+				0,
+				"exp(-i * theta / 2)"
+			]
+		],
+		"params": [
+			"theta"
+		],
+		"drawingInfo": {
+			"connectors": [
+				"circle",
+				"circle"
+			],
+			"label": "ZZ"
+		},
+		"exportInfo": {
+			"quil": {
+				"name": "zz",
+				"params": [
+					"theta"
+				],
+				"defgate": "DEFGATE zz(%theta):\n    EXP(-i * %theta / 2), 0, 0, 0\n    0, EXP(i * %theta / 2), 0, 0\n    0, 0, EXP(i * %theta / 2), 0\n    0, 0, 0, EXP(-i * %theta / 2)"
+			},
+			"pyquil": {
+				"name": "zz",
+				"params": [
+					"theta"
+				],
+				"array": "[ [ quil_exp(-1j * p_theta / 2), 0, 0, 0 ], [ 0, quil_exp(1j * p_theta / 2), 0, 0], [ 0, 0, quil_exp(1j * p_theta / 2), 0 ], [ 0, 0, 0, quil_exp(-1j * p_theta / 2) ] ]"
+			},
+			"qasm": {
+				"name": "rzz"
+			},
+			"qiskit": {
+				"name": "rzz"
 			}
 		}
 	},
@@ -2748,6 +3037,18 @@
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^½",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(1j * np.pi / 2)] ]"
+			},
+			"aqasm": {
+				"name": "S",
+				"controlled": true
 			}
 		}
 	},
@@ -2838,6 +3139,18 @@
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^¼",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(1j * np.pi / 4)] ]"
+			},
+			"aqasm": {
+				"name": "T",
+				"controlled": true
 			}
 		}
 	},
@@ -2928,6 +3241,43 @@
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^⅛",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(1j * np.pi / 8)] ]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						1,
+						0,
+						0,
+						0
+					],
+					[
+						0,
+						1,
+						0,
+						0
+					],
+					[
+						0,
+						0,
+						1,
+						0
+					],
+					[
+						0,
+						0,
+						0,
+						"exp(i * pi / 8)"
+					]
+				],
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(1j * np.pi / 8)] ]"
 			}
 		}
 	},
@@ -2950,12 +3300,12 @@
 				0,
 				0,
 				"cos(theta / 2)",
-				"-1i * sin(theta / 2)"
+				"-i * sin(theta / 2)"
 			],
 			[
 				0,
 				0,
-				"-1i * sin(theta / 2)",
+				"-i * sin(theta / 2)",
 				"cos(theta / 2)"
 			]
 		],
@@ -3052,6 +3402,17 @@
 						}
 					}
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"theta"
+				],
+				"array": "[[ 1, 0, 0, 0 ], [ 0, 1, 0, 0 ], [ 0, 0, np.cos(p_theta / 2), -1j*np.sin(p_theta / 2) ], [ 0, 0, -1j*np.sin(p_theta / 2), np.cos(p_theta / 2) ]]"
+			},
+			"aqasm": {
+				"name": "RX",
+				"controlled": true
 			}
 		}
 	},
@@ -3232,6 +3593,17 @@
 						]
 					}
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"theta"
+				],
+				"array": "[[ 1, 0, 0, 0 ],[ 0, 1, 0, 0 ],[ 0, 0, np.cos(p_theta / 2), -1*np.sin(p_theta / 2) ],[ 0, 0, np.sin(p_theta / 2), np.cos(p_theta / 2) ]]"
+			},
+			"aqasm": {
+				"name": "RY",
+				"controlled": true
 			}
 		}
 	},
@@ -3309,11 +3681,22 @@
 				"params": [
 					"phi"
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"phi"
+				],
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, np.cos(p_phi / 2) - 1j * np.sin(p_phi / 2), 0], [0, 0, 0, np.cos(p_phi / 2) + 1j * np.sin(p_phi / 2)]]"
+			},
+			"aqasm": {
+				"name": "RZ",
+				"controlled": true
 			}
 		}
 	},
 	"cu1": {
-		"description": "Controlled 1-parameter 0-pulse single qubit gate",
+		"description": "Controlled rotation about the Z axis",
 		"matrix": [
 			[
 				1,
@@ -3371,11 +3754,22 @@
 				"params": [
 					"theta"
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"lambda"
+				],
+				"array": "[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(1j*p_lambda)]]"
+			},
+			"aqasm": {
+				"name": "PH",
+				"controlled": true
 			}
 		}
 	},
 	"cu2": {
-		"description": "Controlled 2-parameter 1-pulse single qubit gate",
+		"description": "Controlled rotation about the X+Z axis",
 		"matrix": [
 			[
 				1,
@@ -3492,11 +3886,52 @@
 						}
 					}
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"phi",
+					"lambda"
+				],
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)],[0, 0, np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						1,
+						0,
+						0,
+						0
+					],
+					[
+						0,
+						1,
+						0,
+						0
+					],
+					[
+						0,
+						0,
+						"1 / sqrt(2)",
+						"-exp(i * lambda) * 1 / sqrt(2)"
+					],
+					[
+						0,
+						0,
+						"exp(i * phi) * 1 / sqrt(2)",
+						"exp(i * lambda + i * phi) * 1 / sqrt(2)"
+					]
+				],
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1/np.sqrt(2), -np.exp(1j*p_lambda)*1/np.sqrt(2)],[0, 0, np.exp(1j*p_phi)*1/np.sqrt(2), np.exp(1j*p_lambda+1j*p_phi)*1/np.sqrt(2)]]",
+				"params": [
+					"phi",
+					"lambda"
+				]
 			}
 		}
 	},
 	"cu3": {
-		"description": "Controlled 3-parameter 2-pulse single qubit gate",
+		"description": "Controlled rotation gate with 3 Euler angles",
 		"matrix": [
 			[
 				1,
@@ -3594,6 +4029,49 @@
 						]
 					]
 				]
+			},
+			"braket": {
+				"name": "unitary",
+				"params": [
+					"theta",
+					"phi",
+					"lambda"
+				],
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, np.cos(p_theta/2),-np.exp(1j*p_lambda)*np.sin(p_theta/2)],[0, 0, np.exp(1j*p_phi)*np.sin(p_theta/2),np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]"
+			},
+			"aqasm": {
+				"matrix": [
+					[
+						1,
+						0,
+						0,
+						0
+					],
+					[
+						0,
+						1,
+						0,
+						0
+					],
+					[
+						0,
+						0,
+						"cos(theta/2)",
+						"-exp(i * lambda) * sin(theta / 2)"
+					],
+					[
+						0,
+						0,
+						"exp(i * phi) * sin(theta / 2)",
+						"exp(i * lambda + i * phi) * cos(theta / 2)"
+					]
+				],
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, np.cos(p_theta/2),-np.exp(1j*p_lambda)*np.sin(p_theta/2)],[0, 0, np.exp(1j*p_phi)*np.sin(p_theta/2),np.exp(1j*p_lambda+1j*p_phi)*np.cos(p_theta/2)]]",
+				"params": [
+					"theta",
+					"phi",
+					"lambda"
+				]
 			}
 		}
 	},
@@ -3684,6 +4162,18 @@
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^½",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1, 0],[0, 0, 0, np.exp(1j * np.pi / 2)]]"
+			},
+			"aqasm": {
+				"name": "S",
+				"controlled": true
 			}
 		}
 	},
@@ -3774,6 +4264,18 @@
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^¼",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1, 0],[0, 0, 0, np.exp(1j * np.pi / 4)]]"
+			},
+			"aqasm": {
+				"name": "T",
+				"controlled": true
 			}
 		}
 	},
@@ -3802,7 +4304,7 @@
 				0,
 				0,
 				0,
-				"exp(-1i * pi / 2)"
+				"exp(-i * pi / 2)"
 			]
 		],
 		"params": [],
@@ -3850,7 +4352,7 @@
 					{
 						"name": "cu1",
 						"params": {
-							"lambda": "-pi/2"
+							"lambda": "-1*pi/2"
 						}
 					}
 				]
@@ -3860,10 +4362,23 @@
 					{
 						"name": "cu1",
 						"params": {
-							"lambda": "-pi/2"
+							"lambda": "-1*pi/2"
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^-½",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1, 0],[0, 0, 0, np.exp(-1j * np.pi / 2)]]"
+			},
+			"aqasm": {
+				"name": "S",
+				"controlled": true,
+				"dagger": true
 			}
 		}
 	},
@@ -3892,7 +4407,7 @@
 				0,
 				0,
 				0,
-				"exp(-1i * pi / 4)"
+				"exp(-i * pi / 4)"
 			]
 		],
 		"params": [],
@@ -3940,7 +4455,7 @@
 					{
 						"name": "cu1",
 						"params": {
-							"lambda": "-pi/4"
+							"lambda": "-1*pi/4"
 						}
 					}
 				]
@@ -3950,10 +4465,23 @@
 					{
 						"name": "cu1",
 						"params": {
-							"lambda": "-pi/4"
+							"lambda": "-1*pi/4"
 						}
 					}
 				]
+			},
+			"quirk": {
+				"name": "Z^-¼",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0],[0,1,0,0],[0, 0, 1, 0],[0, 0, 0, np.exp(-1j * np.pi / 4)]]"
+			},
+			"aqasm": {
+				"name": "T",
+				"controlled": true,
+				"dagger": true
 			}
 		}
 	},
@@ -4064,6 +4592,16 @@
 				"func": "void ccx(Qureg qubits, const int q1, const int q2, const int q3) {\n    hadamard(qubits, q3);\n    controlledNot(qubits, q2, q3);\n    phaseShift(qubits, q3, -M_PI/4);\n    controlledNot(qubits, q1, q3);\n    tGate(qubits, q3);\n    controlledNot(qubits, q2, q3);\n    phaseShift(qubits, q3, -M_PI/4);\n    controlledNot(qubits, q1, q3);\n    tGate(qubits, q2);\n    tGate(qubits, q3);\n    controlledNot(qubits, q1, q2);\n    hadamard(qubits, q3);\n    tGate(qubits, q1);\n    phaseShift(qubits, q2, -M_PI/4);\n    controlledNot(qubits, q1, q2);\n}"
 			},
 			"qsharp": {
+				"name": "CCNOT"
+			},
+			"quirk": {
+				"name": "X",
+				"controlled": true
+			},
+			"braket": {
+				"name": "ccnot"
+			},
+			"aqasm": {
 				"name": "CCNOT"
 			}
 		}
@@ -4178,6 +4716,18 @@
 			},
 			"pyquil": {
 				"name": "CSWAP"
+			},
+			"quirk": {
+				"name": "Swap",
+				"controlled": true
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0,0,0,0,0], [0,1,0,0,0,0,0,0], [0,0,1,0,0,0,0,0], [0,0,0,1,0,0,0,0], [0,0,0,0,1,0,0,0], [0,0,0,0,0,0,1,0], [0,0,0,0,0,1,0,0], [0,0,0,0,0,0,0,1]]"
+			},
+			"aqasm": {
+				"name": "SWAP",
+				"controlled": true
 			}
 		}
 	},
@@ -4294,6 +4844,14 @@
 			"pyquil": {
 				"name": "csrswap",
 				"array": "[[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,0.5 * (1 + 1j),0.5 * (1 - 1j),0],[0,0,0,0,0,0.5 * (1 - 1j),0.5 * (1 + 1j),0],[0,0,0,0,0,0,0,1]]"
+			},
+			"braket": {
+				"name": "unitary",
+				"array": "[[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,0.5 * (1 + 1j),0.5 * (1 - 1j),0],[0,0,0,0,0,0.5 * (1 - 1j),0.5 * (1 + 1j),0],[0,0,0,0,0,0,0,1]]"
+			},
+			"aqasm": {
+				"name": "SQRTSWAP",
+				"controlled": true
 			}
 		}
 	},

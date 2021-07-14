@@ -59,12 +59,15 @@ class QobjToToaster(QConvertQobj):
 		if "matrix" in data and data["matrix"] is not None:
 			gate["matrix"] = data["matrix"]
 
-		if data["condition"] is not None:
+		if "condition" in data and data["condition"] is not None:
 			condition = {}
 			condition["creg"] = data["condition"]["creg_name"]
 			condition["value"] = data["condition"]["creg_value"]
 
 			gate["options"]["condition"] = condition
+
+		if "params_dict" in data and data["params_dict"] is not None:
+			gate["options"]["params"] = data["params_dict"]
 
 		self.result["program"].append(gate)
 
