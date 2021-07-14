@@ -23,7 +23,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="quantastica-qconvert",
-    version="0.9.18",
+    version="0.9.19",
     description="Quantastica quantum programming tools",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -38,7 +38,7 @@ setup(
         "Intended Audience :: Science/Research"
         ],
 
-    namespace_packages=['quantastica'],
+    namespace_packages=["quantastica"],
     packages=find_namespace_packages(),
     include_package_data=True,
     install_requires=[],

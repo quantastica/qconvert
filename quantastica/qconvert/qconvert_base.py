@@ -17,7 +17,7 @@ import re
 
 gate_defs_path = os.path.join(os.path.dirname(__file__), "gate_defs.json")
 with open(gate_defs_path, encoding="utf-8") as file:
-	gate_defs = json.load(file, encoding="utf-8")
+	gate_defs = json.load(file)
 
 from cmath import *
 
